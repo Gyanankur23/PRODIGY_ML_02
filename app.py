@@ -126,10 +126,12 @@ def main():
         st.metric("Number of Clusters", len(np.unique(labels)))
     
     with col3:
-        st.metric("Silhouette Score", f"{clustering.silhouette_score:.4f}")
+        sil_score = clustering.silhouette_score if clustering.silhouette_score is not None else "N/A"
+        st.metric("Silhouette Score", sil_score if sil_score == "N/A" else f"{sil_score:.4f}")
     
     with col4:
-        st.metric("Model Inertia", f"{clustering.inertia:.2f}")
+        inertia = clustering.inertia if clustering.inertia is not None else "N/A"
+        st.metric("Model Inertia", inertia if inertia == "N/A" else f"{inertia:.2f}")
     
     # Data Overview
     st.markdown('<div class="section-header">📋 Data Overview</div>', 
