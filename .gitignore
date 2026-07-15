@@ -38,12 +38,12 @@ ENV/
 *.ipynb
 
 # Data
-data/*.csv
-!data/.gitkeep
+# data/*.csv
+# !data/.gitkeep
 
 # Models
-models/*.pkl
-!models/.gitkeep
+# models/*.pkl
+# !models/.gitkeep
 
 # OS
 .DS_Store
