@@ -56,7 +56,9 @@ st.markdown("""
 @st.cache_resource
 def load_data():
     """Load and preprocess data."""
-    data_path = os.path.join('data', 'Mall_Customers.csv')
+    # Get the directory where this script is located
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    data_path = os.path.join(base_dir, 'data', 'Mall_Customers.csv')
     preprocessor = DataPreprocessor(data_path)
     original_data, scaled_features = preprocessor.preprocess()
     return original_data, scaled_features, preprocessor
@@ -65,7 +67,8 @@ def load_data():
 @st.cache_resource
 def load_model():
     """Load trained model."""
-    model_path = os.path.join('models', 'kmeans_model.pkl')
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    model_path = os.path.join(base_dir, 'models', 'kmeans_model.pkl')
     if os.path.exists(model_path):
         clustering = KMeansClustering(n_clusters=5, random_state=42)
         clustering.load_model(model_path)
@@ -91,9 +94,10 @@ def main():
     
     if train_model:
         with st.spinner("Training model..."):
+            base_dir = os.path.dirname(os.path.abspath(__file__))
             clustering = KMeansClustering(n_clusters=5, random_state=42)
             labels = clustering.fit(scaled_features)
-            clustering.save_model(os.path.join('models', 'kmeans_model.pkl'))
+            clustering.save_model(os.path.join(base_dir, 'models', 'kmeans_model.pkl'))
             st.sidebar.success("Model trained successfully!")
             st.rerun()
     
@@ -102,9 +106,10 @@ def main():
     
     if clustering is None:
         st.warning("⚠️ No trained model found. Please train the model first.")
+        base_dir = os.path.dirname(os.path.abspath(__file__))
         clustering = KMeansClustering(n_clusters=5, random_state=42)
         labels = clustering.fit(scaled_features)
-        clustering.save_model(os.path.join('models', 'kmeans_model.pkl'))
+        clustering.save_model(os.path.join(base_dir, 'models', 'kmeans_model.pkl'))
     else:
         labels = clustering.predict(scaled_features)
     

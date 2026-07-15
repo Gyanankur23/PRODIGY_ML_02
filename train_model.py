@@ -22,9 +22,10 @@ def main():
     print("=" * 60)
     
     # Initialize paths
-    data_path = os.path.join('data', 'Mall_Customers.csv')
-    model_path = os.path.join('models', 'kmeans_model.pkl')
-    plots_dir = 'plots'
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    data_path = os.path.join(base_dir, 'data', 'Mall_Customers.csv')
+    model_path = os.path.join(base_dir, 'models', 'kmeans_model.pkl')
+    plots_dir = os.path.join(base_dir, 'plots')
     
     # Create plots directory
     os.makedirs(plots_dir, exist_ok=True)
@@ -138,7 +139,7 @@ def main():
     
     # Add cluster labels to original data
     original_data['Cluster'] = labels
-    original_data.to_csv(os.path.join('data', 'customers_with_clusters.csv'), index=False)
+    original_data.to_csv(os.path.join(base_dir, 'data', 'customers_with_clusters.csv'), index=False)
     print(f"\n- Saved data with cluster labels to data/customers_with_clusters.csv")
     
     print("\n" + "=" * 60)
