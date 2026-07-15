@@ -101,17 +101,14 @@ def main():
             st.sidebar.success("Model trained successfully!")
             st.rerun()
     
-    # Load or create model
+    # Load model
     clustering = load_model()
     
     if clustering is None:
-        st.warning("⚠️ No trained model found. Please train the model first.")
-        base_dir = os.path.dirname(os.path.abspath(__file__))
-        clustering = KMeansClustering(n_clusters=5, random_state=42)
-        labels = clustering.fit(scaled_features)
-        clustering.save_model(os.path.join(base_dir, 'models', 'kmeans_model.pkl'))
-    else:
-        labels = clustering.predict(scaled_features)
+        st.error("❌ Model not found. Please ensure the trained model is included in the deployment.")
+        st.stop()
+    
+    labels = clustering.predict(scaled_features)
     
     # Add labels to data
     original_data['Cluster'] = labels
